@@ -1,22 +1,128 @@
-# 🤖 Self-Organizing AI Trading Team (Multi-Agent System)
+# SAIRA - Self-Organizing AI Research & Applications
 
-A sophisticated multi-agent AI system for automated options trading, featuring specialized agents for market analysis, strategy planning, risk management, and execution. Built with LangGraph, this system demonstrates advanced AI coordination, rigorous risk controls, and professional software engineering practices.
+A collection of advanced AI systems demonstrating multi-agent coordination, specialized domain expertise, and production-grade software engineering. These projects will be combined into a unified SAIRA platform.
 
-[![Tests](https://github.com/yourusername/multi-agent-trading/actions/workflows/lint-tests.yaml/badge.svg)](https://github.com/yourusername/multi-agent-trading/actions)
-[![Nightly Backtests](https://github.com/yourusername/multi-agent-trading/actions/workflows/nightly-backtest.yaml/badge.svg)](https://github.com/yourusername/multi-agent-trading/actions)
+---
 
-## 🎯 What This Shows
+## 🌟 Projects
 
-This project demonstrates:
+### 1. 🤖 Multi-Agent AI Trading System
 
-- **Multi-Agent Coordination**: 7 specialized AI agents working together via LangGraph
-- **Options Trading Strategies**: Iron Condor, Long Straddle, Wheel (cash-secured puts)
-- **Risk Management**: Multi-layered risk controls, VaR calculations, kill switches
-- **Production-Ready Architecture**: Clean code, tests, CI/CD, monitoring dashboard
-- **Reasoning Traces**: Full audit trail of agent decisions
-- **Paper Trading First**: Safe development with paper broker, strict gates for live trading
+A sophisticated multi-agent system for automated options trading, featuring specialized agents for market analysis, strategy planning, risk management, and execution.
 
-## 🏗️ System Architecture
+**Status**: ✅ MVP Complete
+
+**Key Features:**
+- 7 specialized agents coordinated via LangGraph
+- Options strategies: Iron Condor, Long Straddle, Wheel
+- Multi-layer risk management with kill switches
+- Paper trading (default) + live trading adapters
+- Streamlit monitoring dashboard
+- Comprehensive test suite + CI/CD
+
+**Quick Start:**
+```bash
+make dev
+python main.py --init-db
+python main.py --schedule open
+make dashboard  # Streamlit UI
+```
+
+[📖 Detailed Trading System Documentation](#multi-agent-trading-system)
+
+---
+
+### 2. 🔮 Holographic Astrology Platform
+
+A next-generation astrology interpretation system that synthesizes multiple chart systems, predictive techniques, and machine learning feedback loops for precision astrological analysis.
+
+**Status**: 🚧 In Development
+
+**Key Features:**
+- Multi-system chart synthesis (Western + Vedic)
+- LLM-powered unified interpretation
+- Advanced timing predictions (Progressions, Transits, ZR, LB)
+- Event correlation engine with ML feedback loops
+- Modular feedback per prediction technique
+
+**Architecture:**
+- FastAPI backend with Swiss Ephemeris
+- PostgreSQL + ML training pipeline
+- Holographic overlay visualization (planned)
+
+[📖 Detailed Astrology Platform Documentation](#holographic-astrology-platform)
+
+---
+
+## 🎯 SAIRA Vision
+
+These projects demonstrate complementary AI capabilities that will combine into SAIRA:
+
+- **Multi-Agent Coordination**: Trading system's 7-agent architecture
+- **Specialized Domain Expertise**: Options trading + astrological analysis
+- **Machine Learning Integration**: Feedback loops, continuous learning
+- **Production Engineering**: Tests, CI/CD, monitoring, databases
+- **LLM Integration**: Natural language synthesis and reasoning
+
+**Future Integration:**
+- Unified agent framework across domains
+- Shared memory and learning systems
+- Cross-domain insights and patterns
+- Single dashboard for all systems
+
+---
+
+## 📁 Repository Structure
+
+```
+SAIRA/
+├── agents/                      # Trading system agents
+├── strategies/                  # Trading strategies
+├── risk/                        # Risk management
+├── storage/                     # Database & portfolio
+├── dashboards/                  # Streamlit UI
+├── tests/                       # Test suite
+├── config/                      # Configuration
+├── main.py                      # Trading system entry
+├── pyproject.toml              # Dependencies
+└── README.md                   # This file
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.10+
+- Poetry (dependency management)
+- PostgreSQL (optional, SQLite works)
+
+### Installation
+```bash
+# Install dependencies
+make dev
+
+# Initialize database
+python main.py --init-db
+
+# Run trading system
+python main.py --schedule open
+
+# Launch dashboard
+make dashboard
+```
+
+### Run Tests
+```bash
+make test
+make lint
+```
+
+---
+
+# Multi-Agent Trading System
+
+## System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -47,206 +153,222 @@ This project demonstrates:
 │                     ┌──────────────────┐                        │
 │                     │   Coordinator    │                        │
 │                     │  (LangGraph)     │                        │
-│                     │                  │                        │
-│                     │ - Orchestrate    │                        │
-│                     │ - Schedule       │                        │
-│                     │ - Memory         │                        │
 │                     └──────────────────┘                        │
 └─────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────┐
-│                          DATA LAYER                              │
-├─────────────────────────────────────────────────────────────────┤
-│  Market Data     │  Options Data    │  Flow Data   │  Storage   │
-│  - YFinance      │  - Tradier       │  - Quiver    │  - SQLite  │
-│  - Polygon       │  - Polygon       │  - UW        │  - Postgres│
-│  - Alpha Vantage │  - IBKR          │  - Cheddar   │  - Chroma  │
-└─────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────┐
-│                      EXECUTION LAYER                             │
-├─────────────────────────────────────────────────────────────────┤
-│  Paper Broker (Default)         │  IBKR Adapter (Live - Gated)  │
-│  - Simulated fills              │  - Real orders                │
-│  - No real money                │  - Risk flags required        │
-│  - Perfect for development      │  - Human approval             │
-└─────────────────────────────────────────────────────────────────┘
 ```
 
-## 🎓 Strategies Implemented
+## Agents
 
-### 1. Iron Condor
-- **Type**: Premium selling, neutral strategy
-- **Structure**: Short OTM call spread + Short OTM put spread
-- **Profit**: Theta decay in range-bound markets
-- **Entry**: IV Rank > 40, range-bound trend, 30-45 DTE
-- **Exit**: 50% profit target, 200% stop loss, manage at 21 DTE
+### 1. Market Scout
+Fetches and normalizes market data.
+- OHLCV data from multiple providers
+- Options chains with Greeks
+- Market metrics (ATR, volume, volatility)
+- Upcoming events detection
 
-### 2. Long Straddle
-- **Type**: Volatility play, directional agnostic
-- **Structure**: Buy ATM call + Buy ATM put
-- **Profit**: Large moves in either direction
-- **Entry**: Before events (earnings, FOMC), priced move < historical
-- **Exit**: 30% profit, 50% stop, or post-event
+### 2. Signal Engineer
+Computes features and trading signals.
+- IV Rank calculation
+- Priced moves from straddles
+- Put/call ratios and skew
+- Trend detection (SMA crossovers)
+- Liquidity scoring
 
-### 3. Wheel (Cash-Secured Puts)
-- **Type**: Income generation, assignment-tolerant
-- **Structure**: Sell cash-secured puts, if assigned sell covered calls
-- **Profit**: Premium collection, potential share appreciation
-- **Entry**: Quality underlyings, ~25 delta puts, 30 DTE
-- **Exit**: 50% profit, roll at 7 DTE, accept assignment
+### 3. Strategy Planner
+Matches market regime to strategies.
+- Analyzes features and conditions
+- Generates trade proposals
+- Prioritizes opportunities
+- Provides reasoning for each plan
 
-## 🚀 Quick Start
+### 4. Risk Officer
+Validates and enforces risk constraints.
+- Per-trade limit validation
+- Portfolio-level risk checks
+- Kill switch monitoring
+- Human approval escalation
 
-### Prerequisites
-- Python 3.10+
-- Poetry (for dependency management)
-- API Keys (optional but recommended):
-  - Tradier (options data)
-  - OpenAI or Anthropic (for LLM features)
+### 5. Executioner
+Routes orders to broker.
+- Multi-leg order construction
+- Smart order routing
+- Slippage simulation
+- Fill tracking
 
-### Installation
+### 6. Performance Analyst
+Tracks and analyzes performance.
+- Trade logging to database
+- P&L calculation
+- Strategy attribution
+- Performance metrics (Sharpe, win rate)
 
-```bash
-# Install dependencies
-make dev
+### 7. Coordinator
+Orchestrates the workflow.
+- Agent scheduling
+- Context management
+- LangGraph integration
+- Summary generation
 
-# Copy environment template
-cp .env.example .env
+## Trading Strategies
 
-# Edit .env with your API keys (optional for basic features)
-nano .env
+### Iron Condor
+**Type**: Premium selling, neutral
+**Entry**: IV Rank > 40, range-bound, 30-45 DTE
+**Exit**: 50% profit / 200% stop loss
 
-# Initialize database
-python main.py --init-db
-```
+### Long Straddle
+**Type**: Volatility play
+**Entry**: Before events, priced move < historical
+**Exit**: 30% profit / 50% stop loss
 
-### Run the System
+### Wheel
+**Type**: Income generation
+**Entry**: Quality tickers, 25 delta puts, 30 DTE
+**Exit**: 50% profit, roll at 7 DTE
 
-```bash
-# Run with Coordinator (recommended for start)
-python main.py --schedule open
+## Risk Management
 
-# Run with LangGraph workflow
-python main.py --use-langgraph --schedule open
+### Per-Trade Limits
+- Max loss: 1% of account
+- Min open interest: 500
+- Max bid-ask: 60 bps
+- DTE: 20-50 days
 
-# Launch dashboard
-make dashboard
-# Open browser to http://localhost:8501
-```
+### Portfolio Limits
+- Max VaR (95%): 3%
+- Max drawdown: 8%
+- Max margin: 30%
+- Max ticker weight: 15%
 
-### Run Backtests
+### Kill Switch
+- Daily loss > 5%
+- 5 consecutive losses
+- VaR breach 1.5x
 
-```bash
-# Run all backtests
-make backtest
+## Tech Stack
+- **Coordination**: LangGraph
+- **Data**: YFinance, Tradier, QuiverQuant
+- **Execution**: Paper Broker (default), IBKR (stub)
+- **Storage**: SQLAlchemy, ChromaDB
+- **Dashboard**: Streamlit
+- **Testing**: Pytest, GitHub Actions
 
-# Or run specific notebook
-jupyter notebook notebooks/backtest_iron_condor.ipynb
-```
+---
 
-### Run Tests
+# Holographic Astrology Platform
 
-```bash
-# Run test suite
-make test
-```
+## Core Philosophy: Holographic Synthesis
 
-## 📊 Dashboard
+Different house systems and astrological techniques provide complementary perspectives that clarify and reinforce each other. This platform layers:
 
-The Streamlit dashboard provides real-time monitoring:
+- **Western Systems**: Whole Sign, Placidus
+- **Vedic Astrology**: Nakshatras, Sidereal positions
+- **Refinement Techniques**: Decans, Degree Theory
+- **Predictive Methods**: Progressions, Transits, Zodiacal Releasing (ZR), Loosening of Bonds (LB)
 
-- **Overview**: Account value, P&L, open positions, recent trades
-- **Positions**: Position details, Greeks, strategy breakdown
-- **Planner**: Proposed trades, risk checks, approval workflow
-- **Analytics**: Performance metrics, strategy attribution, equity curve
-- **Settings**: Risk limits, environment configuration
-
-## 🛡️ Risk Management
-
-### Multi-Layered Controls
-
-1. **Per-Trade Limits**
-   - Max loss: 1% of account
-   - Min open interest: 500
-   - Max bid-ask spread: 60 bps
-   - DTE bounds: 20-50 days
-
-2. **Portfolio Limits**
-   - Max VaR (95%): 3%
-   - Max drawdown alert: 8%
-   - Max margin usage: 30%
-   - Max ticker concentration: 15%
-
-3. **Strategy Limits**
-   - Max positions per strategy
-   - Max per-ticker positions
-   - Event proximity filters
-
-4. **Kill Switch**
-   - Daily loss > 5% → halt trading
-   - 5 consecutive losses → review required
-   - VaR breach 1.5x → stop new entries
-
-5. **Human Approval Gates**
-   - Live trading requires explicit approval
-   - New strategies require review
-   - Flagged trades escalate to human
-   - Risk limit breaches require override
-
-## 📁 Project Structure
+## Architecture
 
 ```
-multi-agent-trading/
-├── agents/                  # Agent implementations
-├── data_providers/          # Data source adapters
-├── strategies/              # Trading strategies
-├── risk/                    # Risk management
-├── exec/                    # Execution layer
-├── storage/                 # Data persistence
-├── graphs/                  # LangGraph workflows
-├── dashboards/              # Monitoring & visualization
-├── notebooks/               # Backtesting & research
-├── tests/                   # Test suite
-├── config/                  # Configuration files
-├── main.py                  # Main entry point
-└── pyproject.toml          # Dependencies
+┌─────────────────────────────────────────────────────────────┐
+│                    Frontend Layer                            │
+│  • Multi-chart visualization (holographic overlay)           │
+│  • Event timeline & prediction dashboard                     │
+│  • Feedback interface (modular by technique)                 │
+└─────────────────────────────────────────────────────────────┘
+                           ↕
+┌─────────────────────────────────────────────────────────────┐
+│                    API Layer (FastAPI)                       │
+│  ┌────────────┐ ┌──────────┐ ┌──────────────────────────┐  │
+│  │ Chart      │ │ LLM      │ │ Prediction Engine        │  │
+│  │ Calculator │ │ Narrator │ │ (Progressions/Transits/  │  │
+│  │            │ │          │ │  ZR/LB modules)          │  │
+│  └────────────┘ └──────────┘ └──────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                           ↕
+┌─────────────────────────────────────────────────────────────┐
+│           Database & ML Training Pipeline                    │
+│  • PostgreSQL: Charts, Events, Feedback (per technique)     │
+│  • Training datasets: Isolated per prediction method         │
+│  • Model registry: Version control for ML models            │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-## 🎯 Roadmap
+## Modular Feedback Loops
 
-### Phase 1: MVP ✅ (Current)
-- [x] Agent architecture
-- [x] Iron Condor & Wheel strategies
-- [x] Paper broker
-- [x] Risk management
-- [x] Streamlit dashboard
-- [x] Basic backtests
+Each predictive technique has isolated feedback collection:
+- **Progressions Feedback**: User validates progression-based predictions
+- **Transit Feedback**: User validates transit timing accuracy
+- **ZR Feedback**: Zodiacal Releasing event correlation
+- **LB Feedback**: Loosening of Bonds accuracy metrics
+- **House System Feedback**: Comparative resonance ratings
 
-### Phase 2: Enhancement (Next)
-- [ ] Long Straddle with earnings calendar
-- [ ] Sentiment/flow integration
-- [ ] Improved VaR-based position sizing
-- [ ] Roll logic for options
+## Key Features
 
-### Phase 3: Advanced (Future)
-- [ ] IBKR live integration (with extreme care)
-- [ ] RL-based strategy weight optimization
-- [ ] Bayesian event-move prediction
+### 1. Multi-System Chart Synthesis
+- Calculate charts in multiple house systems simultaneously
+- Vedic Nakshatra integration with planetary rulers
+- Decan and degree theory overlays
 
-## ⚠️ Disclaimers & Safety
+### 2. LLM-Powered Unified Interpretation
+- AI synthesizes insights across all systems
+- Natural language interpretation of complex configurations
+- Holistic narrative generation
 
-**CRITICAL WARNINGS:**
+### 3. Advanced Timing Predictions
+- **Secondary Progressions**: Aspects to natal chart
+- **Transits**: Real-time planetary positions vs natal
+- **Zodiacal Releasing**: Peak/loosening periods with event flags
+- **Loosening of Bonds**: Refinement of ZR timing
 
-1. **Paper Trading by Default**: This system uses paper trading (simulated) by default. No real money at risk unless explicitly enabled.
+### 4. Event Correlation Engine
+Event categories tracked:
+- Career changes (new job, promotion, termination)
+- Relationships (start, marriage, breakup, divorce)
+- Family events (birth, death, health crisis)
+- Financial shifts (windfall, loss, investment)
+- Relocations and major life transitions
 
-2. **Live Trading Requires Extreme Caution**: Live trading is gated behind multiple warnings. Even then, start with TINY position sizes.
+### 5. Closed-Loop Machine Learning
+- User feedback on prediction accuracy
+- Continuous model retraining
+- A/B testing of interpretation strategies
+- Performance metrics per technique
 
-3. **Not Financial Advice**: This is an educational/portfolio project. Use at your own risk.
+## Tech Stack
+- **Backend**: Python 3.11+, FastAPI
+- **Astrology Engine**: Swiss Ephemeris (pyswisseph)
+- **Database**: PostgreSQL + SQLAlchemy
+- **ML/AI**: Transformers, PyTorch, OpenAI/Anthropic APIs
+- **Frontend**: React/Next.js (TBD)
 
-4. **Options Are Risky**: Options can result in total loss of capital.
+## Development Roadmap
+- [x] Project initialization
+- [ ] Core chart calculation engine
+- [ ] Multi-house system implementation
+- [ ] Vedic/Nakshatra integration
+- [ ] Secondary progressions engine
+- [ ] Transit prediction engine
+- [ ] Zodiacal Releasing implementation
+- [ ] LLM integration & prompt engineering
+- [ ] Feedback collection system
+- [ ] ML training pipeline
 
-5. **No Guarantees**: The system may have bugs or encounter edge cases.
+---
+
+## ⚠️ Disclaimers
+
+### Trading System
+- **Paper trading by default** - no real money at risk
+- **Not financial advice** - educational/portfolio project
+- **Options are risky** - can result in total loss
+- Use extreme caution if enabling live trading
+
+### Astrology Platform
+- **For entertainment and research purposes**
+- **Not a substitute for professional advice**
+- Astrological predictions are interpretive
+
+---
 
 ## 📄 License
 
@@ -254,6 +376,15 @@ MIT License - see LICENSE file for details.
 
 ---
 
-**Built with ❤️ for demonstrating multi-agent AI systems and production-grade software engineering.**
+## 🙏 Acknowledgments
+
+- LangGraph for agent coordination
+- Swiss Ephemeris for astronomical calculations
+- Tradier & YFinance for market data
+- Open source community
+
+---
+
+**SAIRA - Demonstrating the future of specialized AI systems**
 
 **⭐ Star this repo if you find it useful!**
