@@ -1,159 +1,259 @@
-# Holographic Astrology Platform
+# 🤖 Self-Organizing AI Trading Team (Multi-Agent System)
 
-A next-generation astrology interpretation system that synthesizes multiple chart systems, predictive techniques, and machine learning feedback loops for precision astrological analysis.
+A sophisticated multi-agent AI system for automated options trading, featuring specialized agents for market analysis, strategy planning, risk management, and execution. Built with LangGraph, this system demonstrates advanced AI coordination, rigorous risk controls, and professional software engineering practices.
 
-## Core Philosophy: Holographic Synthesis
+[![Tests](https://github.com/yourusername/multi-agent-trading/actions/workflows/lint-tests.yaml/badge.svg)](https://github.com/yourusername/multi-agent-trading/actions)
+[![Nightly Backtests](https://github.com/yourusername/multi-agent-trading/actions/workflows/nightly-backtest.yaml/badge.svg)](https://github.com/yourusername/multi-agent-trading/actions)
 
-Different house systems and astrological techniques provide complementary perspectives that clarify and reinforce each other, rather than contradict. This platform layers:
+## 🎯 What This Shows
 
-- **Western Systems**: Whole Sign, Placidus
-- **Vedic Astrology**: Nakshatras, Sidereal positions
-- **Refinement Techniques**: Decans, Degree Theory
-- **Predictive Methods**: Progressions, Transits, Zodiacal Releasing (ZR), Loosening of Bonds (LB)
+This project demonstrates:
 
-## Architecture
+- **Multi-Agent Coordination**: 7 specialized AI agents working together via LangGraph
+- **Options Trading Strategies**: Iron Condor, Long Straddle, Wheel (cash-secured puts)
+- **Risk Management**: Multi-layered risk controls, VaR calculations, kill switches
+- **Production-Ready Architecture**: Clean code, tests, CI/CD, monitoring dashboard
+- **Reasoning Traces**: Full audit trail of agent decisions
+- **Paper Trading First**: Safe development with paper broker, strict gates for live trading
+
+## 🏗️ System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Frontend Layer                            │
-│  • Multi-chart visualization (holographic overlay)           │
-│  • Event timeline & prediction dashboard                     │
-│  • Feedback interface (modular by technique)                 │
-└─────────────────────────────────────────────────────────────┘
-                           ↕
-┌─────────────────────────────────────────────────────────────┐
-│                    API Layer (FastAPI)                       │
-│  ┌────────────┐ ┌──────────┐ ┌──────────────────────────┐  │
-│  │ Chart      │ │ LLM      │ │ Prediction Engine        │  │
-│  │ Calculator │ │ Narrator │ │ (Progressions/Transits/  │  │
-│  │            │ │          │ │  ZR/LB modules)          │  │
-│  └────────────┘ └──────────┘ └──────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-                           ↕
-┌─────────────────────────────────────────────────────────────┐
-│           Database & ML Training Pipeline                    │
-│  • PostgreSQL: Charts, Events, Feedback (per technique)     │
-│  • Training datasets: Isolated per prediction method         │
-│  • Model registry: Version control for ML models            │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                      MULTI-AGENT WORKFLOW                        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────┐      ┌────────────────┐      ┌─────────────┐ │
+│  │ Market Scout │─────>│Signal Engineer │─────>│Strategy     │ │
+│  │              │      │                │      │Planner      │ │
+│  │ - OHLCV Data │      │ - IV Rank      │      │             │ │
+│  │ - Options    │      │ - Priced Move  │      │ - Match     │ │
+│  │ - Chains     │      │ - Put/Call     │      │   Regime    │ │
+│  │ - Events     │      │ - Skew         │      │ - Generate  │ │
+│  │              │      │ - Trend        │      │   Plans     │ │
+│  └──────────────┘      └────────────────┘      └──────┬──────┘ │
+│                                                        │        │
+│                                                        v        │
+│  ┌──────────────┐      ┌────────────────┐      ┌─────────────┐ │
+│  │Performance   │<─────│  Executioner   │<─────│Risk Officer │ │
+│  │Analyst       │      │                │      │             │ │
+│  │              │      │ - Route Orders │      │ - Validate  │ │
+│  │ - Track P&L  │      │ - Smart Fill   │      │ - Enforce   │ │
+│  │ - Attribution│      │ - Manage Legs  │      │   Limits    │ │
+│  │ - Learn      │      │                │      │ - Kill      │ │
+│  │              │      │                │      │   Switch    │ │
+│  └──────────────┘      └────────────────┘      └─────────────┘ │
+│                                                                  │
+│                     ┌──────────────────┐                        │
+│                     │   Coordinator    │                        │
+│                     │  (LangGraph)     │                        │
+│                     │                  │                        │
+│                     │ - Orchestrate    │                        │
+│                     │ - Schedule       │                        │
+│                     │ - Memory         │                        │
+│                     └──────────────────┘                        │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                          DATA LAYER                              │
+├─────────────────────────────────────────────────────────────────┤
+│  Market Data     │  Options Data    │  Flow Data   │  Storage   │
+│  - YFinance      │  - Tradier       │  - Quiver    │  - SQLite  │
+│  - Polygon       │  - Polygon       │  - UW        │  - Postgres│
+│  - Alpha Vantage │  - IBKR          │  - Cheddar   │  - Chroma  │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                      EXECUTION LAYER                             │
+├─────────────────────────────────────────────────────────────────┤
+│  Paper Broker (Default)         │  IBKR Adapter (Live - Gated)  │
+│  - Simulated fills              │  - Real orders                │
+│  - No real money                │  - Risk flags required        │
+│  - Perfect for development      │  - Human approval             │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-## Modular Feedback Loops
+## 🎓 Strategies Implemented
 
-Each predictive technique has isolated feedback collection:
+### 1. Iron Condor
+- **Type**: Premium selling, neutral strategy
+- **Structure**: Short OTM call spread + Short OTM put spread
+- **Profit**: Theta decay in range-bound markets
+- **Entry**: IV Rank > 40, range-bound trend, 30-45 DTE
+- **Exit**: 50% profit target, 200% stop loss, manage at 21 DTE
 
-- **Progressions Feedback**: User validates progression-based predictions
-- **Transit Feedback**: User validates transit timing accuracy
-- **ZR Feedback**: Zodiacal Releasing event correlation
-- **LB Feedback**: Loosening of Bonds accuracy metrics
-- **House System Feedback**: Comparative resonance ratings
+### 2. Long Straddle
+- **Type**: Volatility play, directional agnostic
+- **Structure**: Buy ATM call + Buy ATM put
+- **Profit**: Large moves in either direction
+- **Entry**: Before events (earnings, FOMC), priced move < historical
+- **Exit**: 30% profit, 50% stop, or post-event
 
-This allows independent refinement, validation, or removal of underperforming techniques.
+### 3. Wheel (Cash-Secured Puts)
+- **Type**: Income generation, assignment-tolerant
+- **Structure**: Sell cash-secured puts, if assigned sell covered calls
+- **Profit**: Premium collection, potential share appreciation
+- **Entry**: Quality underlyings, ~25 delta puts, 30 DTE
+- **Exit**: 50% profit, roll at 7 DTE, accept assignment
 
-## Key Features
+## 🚀 Quick Start
 
-### 1. Multi-System Chart Synthesis
-- Calculate charts in multiple house systems simultaneously
-- Vedic Nakshatra integration with planetary rulers
-- Decan and degree theory overlays
+### Prerequisites
+- Python 3.10+
+- Poetry (for dependency management)
+- API Keys (optional but recommended):
+  - Tradier (options data)
+  - OpenAI or Anthropic (for LLM features)
 
-### 2. LLM-Powered Unified Interpretation
-- AI synthesizes insights across all systems
-- Natural language interpretation of complex configurations
-- Holistic narrative generation
-
-### 3. Advanced Timing Predictions
-- **Secondary Progressions**: Aspects to natal chart
-- **Transits**: Real-time planetary positions vs natal
-- **Zodiacal Releasing**: Peak/loosening periods with event flags
-- **Loosening of Bonds**: Refinement of ZR timing
-
-### 4. Event Correlation Engine
-Event categories tracked:
-- Career changes (new job, promotion, termination)
-- Relationships (start, marriage, breakup, divorce)
-- Family events (birth, death, health crisis)
-- Financial shifts (windfall, loss, investment)
-- Relocations and major life transitions
-
-### 5. Closed-Loop Machine Learning
-- User feedback on prediction accuracy
-- Continuous model retraining
-- A/B testing of interpretation strategies
-- Performance metrics per technique
-
-## Tech Stack
-
-- **Backend**: Python 3.11+, FastAPI
-- **Astrology Engine**: Swiss Ephemeris (pyswisseph)
-- **Database**: PostgreSQL + SQLAlchemy
-- **ML/AI**: Transformers, PyTorch, OpenAI/Anthropic APIs
-- **Frontend**: React/Next.js (TBD)
-
-## Installation
+### Installation
 
 ```bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
 # Install dependencies
-pip install -r requirements.txt
+make dev
 
-# Set up database
-python scripts/init_db.py
+# Copy environment template
+cp .env.example .env
 
-# Run development server
-uvicorn app.main:app --reload
+# Edit .env with your API keys (optional for basic features)
+nano .env
+
+# Initialize database
+python main.py --init-db
 ```
 
-## Project Structure
+### Run the System
+
+```bash
+# Run with Coordinator (recommended for start)
+python main.py --schedule open
+
+# Run with LangGraph workflow
+python main.py --use-langgraph --schedule open
+
+# Launch dashboard
+make dashboard
+# Open browser to http://localhost:8501
+```
+
+### Run Backtests
+
+```bash
+# Run all backtests
+make backtest
+
+# Or run specific notebook
+jupyter notebook notebooks/backtest_iron_condor.ipynb
+```
+
+### Run Tests
+
+```bash
+# Run test suite
+make test
+```
+
+## 📊 Dashboard
+
+The Streamlit dashboard provides real-time monitoring:
+
+- **Overview**: Account value, P&L, open positions, recent trades
+- **Positions**: Position details, Greeks, strategy breakdown
+- **Planner**: Proposed trades, risk checks, approval workflow
+- **Analytics**: Performance metrics, strategy attribution, equity curve
+- **Settings**: Risk limits, environment configuration
+
+## 🛡️ Risk Management
+
+### Multi-Layered Controls
+
+1. **Per-Trade Limits**
+   - Max loss: 1% of account
+   - Min open interest: 500
+   - Max bid-ask spread: 60 bps
+   - DTE bounds: 20-50 days
+
+2. **Portfolio Limits**
+   - Max VaR (95%): 3%
+   - Max drawdown alert: 8%
+   - Max margin usage: 30%
+   - Max ticker concentration: 15%
+
+3. **Strategy Limits**
+   - Max positions per strategy
+   - Max per-ticker positions
+   - Event proximity filters
+
+4. **Kill Switch**
+   - Daily loss > 5% → halt trading
+   - 5 consecutive losses → review required
+   - VaR breach 1.5x → stop new entries
+
+5. **Human Approval Gates**
+   - Live trading requires explicit approval
+   - New strategies require review
+   - Flagged trades escalate to human
+   - Risk limit breaches require override
+
+## 📁 Project Structure
 
 ```
-├── app/
-│   ├── api/                 # FastAPI routes
-│   ├── core/                # Core calculation engines
-│   │   ├── chart_calculator.py
-│   │   ├── house_systems.py
-│   │   ├── vedic.py
-│   │   └── aspects.py
-│   ├── predictions/         # Modular prediction engines
-│   │   ├── progressions.py
-│   │   ├── transits.py
-│   │   ├── zodiacal_releasing.py
-│   │   └── loosening_bonds.py
-│   ├── llm/                 # LLM integration
-│   │   ├── narrator.py
-│   │   └── prompts.py
-│   ├── ml/                  # Machine learning pipelines
-│   │   ├── feedback_processor.py
-│   │   ├── training/
-│   │   └── models/
-│   ├── models/              # Database models
-│   └── schemas/             # Pydantic schemas
-├── data/                    # Training data & ephemeris files
-├── scripts/                 # Utility scripts
+multi-agent-trading/
+├── agents/                  # Agent implementations
+├── data_providers/          # Data source adapters
+├── strategies/              # Trading strategies
+├── risk/                    # Risk management
+├── exec/                    # Execution layer
+├── storage/                 # Data persistence
+├── graphs/                  # LangGraph workflows
+├── dashboards/              # Monitoring & visualization
+├── notebooks/               # Backtesting & research
 ├── tests/                   # Test suite
-└── requirements.txt
+├── config/                  # Configuration files
+├── main.py                  # Main entry point
+└── pyproject.toml          # Dependencies
 ```
 
-## Development Roadmap
+## 🎯 Roadmap
 
-- [x] Project initialization
-- [ ] Core chart calculation engine
-- [ ] Multi-house system implementation
-- [ ] Vedic/Nakshatra integration
-- [ ] Secondary progressions engine
-- [ ] Transit prediction engine
-- [ ] Zodiacal Releasing implementation
-- [ ] Loosening of Bonds implementation
-- [ ] LLM integration & prompt engineering
-- [ ] Feedback collection system
-- [ ] ML training pipeline
-- [ ] Event correlation analytics
-- [ ] API endpoints
-- [ ] Frontend development
+### Phase 1: MVP ✅ (Current)
+- [x] Agent architecture
+- [x] Iron Condor & Wheel strategies
+- [x] Paper broker
+- [x] Risk management
+- [x] Streamlit dashboard
+- [x] Basic backtests
 
-## License
+### Phase 2: Enhancement (Next)
+- [ ] Long Straddle with earnings calendar
+- [ ] Sentiment/flow integration
+- [ ] Improved VaR-based position sizing
+- [ ] Roll logic for options
 
-MIT
+### Phase 3: Advanced (Future)
+- [ ] IBKR live integration (with extreme care)
+- [ ] RL-based strategy weight optimization
+- [ ] Bayesian event-move prediction
+
+## ⚠️ Disclaimers & Safety
+
+**CRITICAL WARNINGS:**
+
+1. **Paper Trading by Default**: This system uses paper trading (simulated) by default. No real money at risk unless explicitly enabled.
+
+2. **Live Trading Requires Extreme Caution**: Live trading is gated behind multiple warnings. Even then, start with TINY position sizes.
+
+3. **Not Financial Advice**: This is an educational/portfolio project. Use at your own risk.
+
+4. **Options Are Risky**: Options can result in total loss of capital.
+
+5. **No Guarantees**: The system may have bugs or encounter edge cases.
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
+
+---
+
+**Built with ❤️ for demonstrating multi-agent AI systems and production-grade software engineering.**
+
+**⭐ Star this repo if you find it useful!**

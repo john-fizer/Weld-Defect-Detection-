@@ -1,0 +1,53 @@
+environment: "paper"  # "paper" | "live"
+
+# Trading universe
+tickers: ["SPY", "QQQ", "AAPL", "MSFT", "TSLA"]
+universe_max: 50
+
+# Agent schedule (times are market hours ET)
+schedule:
+  premarket:
+    - "market_scout"
+  open:
+    - "market_scout"
+    - "signal_engineer"
+    - "strategy_planner"
+    - "risk_officer"
+  midday:
+    - "performance_analyst"
+  close:
+    - "performance_analyst"
+
+# LLM Configuration
+llm:
+  provider: "openai"  # "openai" | "anthropic"
+  model: "gpt-4-turbo-preview"
+  temperature: 0.7
+  max_tokens: 2000
+
+# Memory & Storage
+vectorstore: "chroma"
+vectorstore_path: "./data/vectorstore"
+database_url: "sqlite:///trades.db"
+
+# Data providers
+data_providers:
+  market_data: "yfinance"  # "yfinance" | "polygon" | "alpha_vantage"
+  options_data: "tradier"  # "tradier" | "polygon"
+  flow_data: "quiverquant"  # "quiverquant" | "unusualwhales" | null
+  sentiment: "finbert"  # "finbert" | null
+
+# Backtesting
+backtest:
+  start_date: "2022-01-01"
+  end_date: "2024-12-31"
+  initial_capital: 100000
+  slippage_bps: 5
+  commission_per_contract: 0.65
+
+# Execution
+execution:
+  default_contracts: 1
+  max_bid_ask_improvement_attempts: 3
+  order_timeout_seconds: 60
+  use_mid_price: true

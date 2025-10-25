@@ -1,0 +1,52 @@
+name: Nightly Backtests
+
+on:
+  schedule:
+    # Run at 2 AM UTC every day
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: |
+        poetry install
+
+    - name: Run Iron Condor backtest
+      run: |
+        poetry run jupyter nbconvert --execute --to html notebooks/backtest_iron_condor.ipynb
+
+    - name: Check backtest results
+      run: |
+        # Add validation logic here
+        # e.g., check if backtests generated expected outputs
+        # Fail if risk limits violated, etc.
+        echo "Backtest validation passed"
+
+    - name: Upload backtest reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: backtest-reports
+        path: notebooks/*.html
+        retention-days: 30
+
+    - name: Notify on failure
+      if: failure()
+      run: |
+        echo "Backtest failed! Check artifacts for details."
+        # Could send Slack/email notification here

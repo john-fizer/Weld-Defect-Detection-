@@ -1,0 +1,110 @@
+# Iron Condor Strategy
+iron_condor:
+  enabled: true
+  description: "Short OTM credit spreads on both sides, profit from range-bound movement"
+
+  # Entry criteria
+  ivr_min: 40  # Minimum IV rank
+  ivr_max: 80  # Maximum IV rank (too high = unstable)
+  trend_filter: "range_bound"  # "range_bound" | "any"
+
+  # Structure
+  short_wing_pct: 0.20  # Short strikes at 20% OTM
+  long_wing_extra_pct: 0.05  # Long strikes 5% further out
+  target_pop: 0.65  # Target 65% probability of profit
+  wing_width: 5.0  # Width between short and long strikes
+
+  # Position sizing
+  contracts_per_trade: 1
+  max_per_ticker: 2
+
+  # Exit rules
+  take_profit_pct: 0.50  # Take profit at 50% of max gain
+  stop_loss_pct: 2.00  # Stop loss at 200% of max gain (2x credit received)
+  manage_at_dte: 21  # Actively manage when DTE < 21
+
+  # Filters
+  earnings_proximity_days: 7  # Avoid if earnings within 7 days
+  min_days_to_expiry: 25
+  max_days_to_expiry: 45
+  target_dte: 35  # Preferred DTE
+
+  # Greeks targets
+  target_delta: 0.0  # Delta-neutral preferred
+  max_delta_deviation: 0.10
+
+# Long Straddle/Strangle Strategy
+long_straddle:
+  enabled: true
+  description: "Buy ATM call + put before events, profit from large moves"
+
+  # Entry criteria
+  event_required: true  # Only trade around events (earnings, etc)
+  event_window_days: 5  # Enter within 5 days of event
+  min_expected_move: 0.05  # Minimum 5% expected move
+  priced_move_discount_bps: 100  # Enter if historical > priced by 100bps
+
+  # Structure
+  use_straddle: true  # true = straddle (ATM), false = strangle (OTM)
+  strangle_otm_pct: 0.10  # If strangle, use 10% OTM strikes
+
+  # Position sizing
+  contracts_per_trade: 1
+  max_per_ticker: 1
+
+  # Exit rules
+  take_profit_pct: 0.30  # Take profit at 30% gain
+  stop_loss_pct: 0.50  # Stop loss at 50% loss
+  exit_after_event: true  # Auto-exit day after event
+  hold_max_days: 3  # Maximum hold period
+
+  # IV targeting
+  min_iv_rank: 30  # Prefer elevated IV
+  max_iv_crush_risk: 0.40  # Avoid if crush risk > 40%
+
+# Wheel Strategy
+wheel:
+  enabled: true
+  description: "Sell cash-secured puts, if assigned sell covered calls"
+
+  # Universe filters
+  quality_filters:
+    min_market_cap: 10_000_000_000  # $10B minimum
+    min_avg_volume: 1_000_000  # 1M shares daily
+    max_beta: 2.0  # Avoid extreme volatility
+    fundamental_score_min: 6  # 1-10 scale (optional, can skip)
+
+  # Put selling (entry)
+  put_dte: 30  # Target 30 DTE
+  put_delta: -0.25  # Sell 0.25 delta puts (~25% OTM)
+  put_delta_range: [0.20, 0.30]  # Acceptable range
+  min_premium_annual_pct: 0.12  # Min 12% annualized return
+
+  # Assignment handling
+  accept_assignment: true
+  max_assignment_positions: 5
+  assignment_budget_pct: 0.30  # Max 30% of capital in assignments
+
+  # Covered call selling (if assigned)
+  cc_dte: 30  # Target 30 DTE for CCs
+  cc_delta: 0.30  # Sell 0.30 delta calls (~30% OTM)
+  cc_delta_range: [0.25, 0.40]
+  min_cc_premium_pct: 0.02  # Min 2% per contract
+
+  # Rolling rules
+  roll_at_dte: 7  # Roll puts/calls at 7 DTE if not in profit
+  roll_threshold_pct: 0.10  # Roll for 10%+ additional credit
+  max_rolls: 3  # Max times to roll same position
+
+  # Exit rules
+  close_put_at_profit_pct: 0.50  # Close put at 50% profit
+  close_cc_at_profit_pct: 0.50  # Close covered call at 50% profit
+  assignment_exit_gain_pct: 0.15  # Exit shares at 15% gain
+  assignment_stop_loss_pct: 0.15  # Stop loss on shares at 15% loss
+
+# Strategy allocation (portfolio level)
+allocation:
+  iron_condor: 0.40  # 40% of capital
+  long_straddle: 0.20  # 20% of capital
+  wheel: 0.40  # 40% of capital
+  reserve_cash: 0.20  # 20% reserve (not deployed)

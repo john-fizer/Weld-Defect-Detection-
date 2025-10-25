@@ -1,0 +1,59 @@
+# Portfolio-level risk limits
+portfolio:
+  max_var_95: 0.03  # Maximum 3% VaR at 95% confidence
+  max_drawdown_alert: 0.08  # Alert at 8% drawdown
+  max_margin_usage: 0.30  # Max 30% margin utilization
+  max_gross_leverage: 2.0  # Max 2x gross leverage
+
+# Per-trade risk limits
+per_trade:
+  max_loss_pct: 0.01  # Max 1% of equity per trade
+  max_loss_dollars: 1000  # Hard cap per trade
+  min_open_interest: 500  # Minimum OI for liquidity
+  max_bid_ask_bps: 60  # Max 60bps bid-ask spread
+  min_dte: 20  # Minimum days to expiration
+  max_dte: 50  # Maximum days to expiration
+  forbid_naked_shorts_live: true  # Never allow naked shorts in live
+
+# Exposure limits
+exposure:
+  max_delta_abs: 0.50  # Max absolute delta exposure
+  max_ticker_weight: 0.15  # Max 15% in single ticker
+  max_sector_weight: 0.30  # Max 30% in single sector
+  max_vega: 50.0  # Max vega exposure
+  max_theta: -100.0  # Max negative theta (daily decay)
+  max_gamma: 10.0  # Max gamma exposure
+
+# Strategy-specific limits
+strategy_limits:
+  iron_condor:
+    max_positions: 10
+    max_per_ticker: 2
+  long_straddle:
+    max_positions: 5
+    max_per_ticker: 1
+  wheel:
+    max_positions: 8
+    max_per_ticker: 1
+    max_assignment_exposure_pct: 0.30
+
+# Event-based restrictions
+event_restrictions:
+  earnings_hard_block_days: 2  # No new positions 2 days before earnings
+  earnings_soft_block_days: 5  # Warning for positions within 5 days
+  fomc_block_days: 1  # Block day of FOMC
+  prevent_weekend_expiry: true  # Avoid Friday expirations
+
+# Kill switch conditions
+kill_switch:
+  max_daily_loss_pct: 0.05  # 5% daily loss triggers halt
+  max_consecutive_losses: 5  # 5 losses in a row triggers review
+  var_breach_multiplier: 1.5  # 1.5x VaR breach halts trading
+  manual_override_required: true  # Require human approval to restart
+
+# Human approval requirements
+human_approval:
+  required_for_new_strategy: true
+  required_for_risk_limit_breach: true
+  required_for_live_trading: true
+  required_for_naked_positions: true
