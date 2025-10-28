@@ -1,0 +1,101 @@
+# Core API Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.25
+alembic==1.13.1
+asyncpg==0.29.0  # PostgreSQL async driver
+aiosqlite==0.19.0  # SQLite async driver
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
+cryptography==42.0.0
+
+# AI/ML - LLM
+anthropic==0.18.1
+openai==1.12.0  # Optional, for embeddings
+langchain==0.1.6
+langchain-anthropic==0.1.1
+langgraph==0.0.26
+
+# AI/ML - Embeddings & Vector Store
+sentence-transformers==2.3.1
+faiss-cpu==1.7.4  # Use faiss-gpu if CUDA available
+torch==2.2.0
+numpy==1.26.3
+
+# Resume Parsing
+pypdf==4.0.1
+pdfplumber==0.10.3
+PyMuPDF==1.23.21  # aka fitz, for advanced PDF parsing
+python-docx==1.1.0
+pytesseract==0.3.10  # OCR for scanned PDFs (optional)
+Pillow==10.2.0
+
+# Web Scraping & Automation
+playwright==1.41.2
+selenium==4.17.2
+beautifulsoup4==4.12.3
+lxml==5.1.0
+requests==2.31.0
+httpx==0.26.0
+aiohttp==3.9.3
+
+# Task Queue (for background jobs)
+celery==5.3.6
+redis==5.0.1
+
+# Data Processing
+pandas==2.2.0
+python-dateutil==2.8.2
+pytz==2024.1
+
+# NLP & Text Processing
+spacy==3.7.2
+# Run after install: python -m spacy download en_core_web_sm
+nltk==3.8.1
+scikit-learn==1.4.0
+
+# Monitoring & Logging
+loguru==0.7.2
+sentry-sdk[fastapi]==1.40.0
+prometheus-client==0.19.0
+
+# Testing
+pytest==8.0.0
+pytest-asyncio==0.23.4
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+httpx==0.26.0  # For TestClient
+faker==22.6.0  # Generate fake data for tests
+
+# Code Quality
+ruff==0.2.1
+black==24.1.1
+mypy==1.8.0
+bandit==1.7.6
+
+# Utilities
+click==8.1.7  # CLI tool creation
+rich==13.7.0  # Terminal formatting
+tqdm==4.66.1  # Progress bars
+tenacity==8.2.3  # Retry logic
+pyyaml==6.0.1
+
+# Email (for notifications)
+fastapi-mail==1.4.1
+jinja2==3.1.3
+
+# Frontend (Streamlit for MVP)
+streamlit==1.31.0
+plotly==5.18.0
+altair==5.2.0
+
+# Environment Management
+python-decouple==3.8
