@@ -15,7 +15,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 from app.core.config import settings
 from app.core.database import engine, Base
-# from app.api import profiles, jobs, scoring, applications, analytics
+from app.api import profiles, jobs, applications
 
 
 @asynccontextmanager
@@ -111,12 +111,10 @@ async def root():
     }
 
 
-# Include routers (commented out until implemented)
-# app.include_router(profiles.router, prefix="/api/profiles", tags=["profiles"])
-# app.include_router(jobs.router, prefix="/api/jobs", tags=["jobs"])
-# app.include_router(scoring.router, prefix="/api/scoring", tags=["scoring"])
-# app.include_router(applications.router, prefix="/api/applications", tags=["applications"])
-# app.include_router(analytics.router, prefix="/api/analytics", tags=["analytics"])
+# Include routers
+app.include_router(profiles.router, prefix="/api/profiles", tags=["profiles"])
+app.include_router(jobs.router, prefix="/api/jobs", tags=["jobs"])
+app.include_router(applications.router, prefix="/api/applications", tags=["applications"])
 
 
 if __name__ == "__main__":
