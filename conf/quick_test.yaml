@@ -1,0 +1,47 @@
+# Quick test configuration - for debugging and rapid iteration
+# Override: python train.py --config-name quick_test
+
+defaults:
+  - train
+  - _self_
+
+# Minimal dataset for quick testing
+data:
+  mix_real_ratio: 0.5
+  image_size: 224
+  initial_size: 224
+  num_workers: 2
+
+text_removal:
+  enabled: false                    # Skip for quick tests
+
+synthetic:
+  enabled: false                    # Skip synthetic data
+  num_images: 100
+
+dinov2:
+  enabled: false
+
+model:
+  backbone: "convnextv2_nano.fcmae_ft_in22k_in1k_384"
+  freeze_stages: 0                  # Don't freeze for quick tests
+
+training:
+  epochs: 5                         # Just 5 epochs for testing
+  batch_size: 8
+  progressive_resize:
+    enabled: false                  # Fixed size for quick tests
+  early_stopping:
+    enabled: false
+
+logging:
+  wandb:
+    enabled: false                  # Disable W&B for quick tests
+  tensorboard:
+    enabled: true
+  log_every_n_steps: 5
+
+hardware:
+  devices: 1
+  benchmark: false
+  deterministic: true               # Reproducible for debugging
