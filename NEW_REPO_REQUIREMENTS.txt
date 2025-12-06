@@ -1,0 +1,40 @@
+# Meta-Learning Framework - Requirements
+
+# Core Dependencies
+numpy>=1.26.3
+pandas>=2.2.0
+scikit-learn>=1.4.0
+
+# Visualization
+matplotlib>=3.8.2
+pillow>=10.2.0
+
+# Configuration & Settings
+pydantic>=2.5.3
+pydantic-settings>=2.1.0
+python-dotenv>=1.0.1
+
+# LLM APIs (Optional - for real experiments)
+anthropic>=0.18.1
+openai>=1.10.0
+
+# Machine Learning (Optional - for advanced features)
+torch>=2.2.0
+transformers>=4.37.2
+
+# Data Processing
+python-dateutil>=2.8.2
+
+# HTTP Requests
+httpx>=0.26.0
+requests>=2.31.0
+
+# Development Tools (Optional)
+pytest>=7.4.4
+pytest-asyncio>=0.23.3
+black>=24.1.1
+ruff>=0.1.14
+
+# Jupyter Notebooks (Optional)
+jupyter>=1.0.0
+ipython>=8.12.0
