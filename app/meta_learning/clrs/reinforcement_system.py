@@ -5,13 +5,19 @@ Feedback engine that continuously trains and improves a local model based on use
 """
 
 import json
-import torch
 import numpy as np
 from typing import Dict, List, Optional, Any, Tuple, Callable
 from datetime import datetime
 from pathlib import Path
 from dataclasses import dataclass, asdict
 import pickle
+
+# Optional torch import for future model training
+try:
+    import torch
+    TORCH_AVAILABLE = True
+except ImportError:
+    TORCH_AVAILABLE = False
 
 from .drift_detector import DriftDetector
 from .alignment_scorer import AlignmentScorer

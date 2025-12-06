@@ -7,12 +7,13 @@ across iterations.
 Research Question: Can meta-prompting outperform static fine-tuning?
 """
 
-from .curriculum_agent import AdaptiveCurriculumAgent
+from .curriculum_agent import AdaptiveCurriculumAgent, CurriculumConfig
 from .prompt_evolver import PromptEvolver
 from .performance_tracker import PerformanceTracker
 
 __all__ = [
     'AdaptiveCurriculumAgent',
+    'CurriculumConfig',
     'PromptEvolver',
     'PerformanceTracker',
 ]

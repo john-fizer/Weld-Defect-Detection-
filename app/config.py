@@ -24,6 +24,14 @@ class Settings(BaseSettings):
     ml_model_path: str = "./data/models"
     training_data_path: str = "./data/training"
 
+    # Meta-Learning Paths
+    meta_learning_data_path: str = "./data/meta_learning"
+    meta_learning_datasets_path: str = "./data/datasets"
+    meta_learning_experiments_path: str = "./data/meta_learning/experiments"
+    meta_learning_checkpoints_path: str = "./data/meta_learning/checkpoints"
+    meta_learning_logs_path: str = "./data/meta_learning/logs"
+    meta_learning_visualizations_path: str = "./data/meta_learning/visualizations"
+
     # Swiss Ephemeris
     use_swiss_ephemeris: bool = True
 
