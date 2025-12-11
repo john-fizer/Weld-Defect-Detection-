@@ -387,12 +387,3 @@ This project is licensed under the MIT License - see LICENSE file for details.
 3. Woo et al. "ConvNeXt V2: Co-designing and Scaling ConvNets with Masked Autoencoders"
 4. Sauer et al. "Adversarial Diffusion Distillation" (SDXL-Turbo)
 
-## 📞 Support
-
-- Issues: [GitHub Issues](https://github.com/your-repo/issues)
-- Discussions: [GitHub Discussions](https://github.com/your-repo/discussions)
-- Email: your-email@example.com
-
----
-
-**Built with ❤️ for the welding industry**
