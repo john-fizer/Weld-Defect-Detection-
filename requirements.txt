@@ -96,7 +96,7 @@ torchmetrics==1.4.3               # PyTorch metrics
 # UTILITIES
 # ============================================
 python-dotenv==1.0.1              # Environment variables
-pyyaml==6.0.2                     # YAML parsing
+pyyaml==6.0.3                     # YAML parsing
 rich==13.9.2                      # Beautiful terminal output
 typer==0.12.5                     # CLI interface
 loguru==0.7.2                     # Advanced logging
