@@ -1,0 +1,189 @@
+# Elite Weld Defect Classifier - .gitignore
+
+# ============================================
+# PYTHON
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ============================================
+# VIRTUAL ENVIRONMENTS
+# ============================================
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+.conda/
+
+# ============================================
+# JUPYTER NOTEBOOKS
+# ============================================
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+*.ipynb
+
+# ============================================
+# DATA DIRECTORIES (DO NOT COMMIT LARGE FILES)
+# ============================================
+data/raw/
+data/clean_real/
+data/synthetic/
+data/merged/
+data/test/
+data/validation/
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tiff
+*.gif
+!docs/*.png
+!docs/*.jpg
+
+# ============================================
+# MODEL CHECKPOINTS & WEIGHTS
+# ============================================
+models/lama/*
+models/lora/*
+models/dinov2/*
+models/classifier/*.ckpt
+models/classifier/*.pth
+models/classifier/*.pt
+models/onnx/*.onnx
+models/tensorrt/*.engine
+*.pth
+*.ckpt
+*.pt
+*.bin
+*.safetensors
+*.pb
+
+# ============================================
+# LOGS & OUTPUTS
+# ============================================
+logs/
+outputs/
+wandb/
+*.log
+runs/
+tensorboard/
+lightning_logs/
+mlruns/
+
+# ============================================
+# HYDRA
+# ============================================
+outputs/
+multirun/
+.hydra/
+
+# ============================================
+# IDE & EDITORS
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ============================================
+# PYTEST & COVERAGE
+# ============================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# ============================================
+# MYPY
+# ============================================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ============================================
+# ENVIRONMENT VARIABLES
+# ============================================
+.env
+.env.local
+.env.*.local
+*.env
+
+# ============================================
+# SYSTEM FILES
+# ============================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+desktop.ini
+
+# ============================================
+# TEMPORARY FILES
+# ============================================
+tmp/
+temp/
+*.tmp
+*.temp
+*.cache
+
+# ============================================
+# ARCHIVES
+# ============================================
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# ============================================
+# SPECIFIC TO THIS PROJECT
+# ============================================
+# Keep sample data for documentation
+!data/sample/
+!docs/images/
+
+# Keep model README files
+!models/README.md
+!models/*/README.md
+
+# Keep configuration templates
+!.env.example
+
+# Keep empty directories with .gitkeep
+!**/.gitkeep

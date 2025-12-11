@@ -1,0 +1,371 @@
+# Elite Weld Defect Classifier - Training Configuration
+# Hydra-based config - never touch code again after this
+
+defaults:
+  - _self_
+  - override hydra/hydra_logging: colorlog
+  - override hydra/job_logging: colorlog
+
+# ============================================
+# DATA PATHS & MIXING
+# ============================================
+data:
+  # Raw data paths
+  raw_path: "data/raw"
+  clean_real_path: "data/clean_real"
+  synth_path: "data/synthetic"
+  merged_path: "data/merged"
+
+  # Dataset mixing ratios
+  mix_real_ratio: 0.25              # 25% real, 75% synthetic
+  mix_synth_ratio: 0.75
+
+  # Data split
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+
+  # Image specs
+  num_classes: 2                    # good vs bad welds
+  class_names: ["good_weld", "bad_weld"]
+
+  # Image loading
+  image_size: 448                   # Progressive resize ends here
+  initial_size: 256                 # Start training at this size
+  num_workers: 8
+  pin_memory: true
+  persistent_workers: true
+
+# ============================================
+# TEXT REMOVAL (Stage 1)
+# ============================================
+text_removal:
+  enabled: true
+  easyocr:
+    languages: ['en']
+    gpu: true
+    detector: true
+    recognizer: true
+    paragraph: false
+    min_size: 10                    # Minimum text size in pixels
+    text_threshold: 0.7             # Detection confidence threshold
+    low_text: 0.4
+    link_threshold: 0.4
+    canvas_size: 2560
+    mag_ratio: 1.0
+
+  mask:
+    dilation_kernel_size: 30        # Dilate masks 20-30px (no halos)
+    dilation_iterations: 2
+    blur_kernel_size: 5             # Smooth mask edges
+
+  lama:
+    model_path: "models/lama"
+    checkpoint: "big-lama"           # Current inpainting king
+    device: "cuda"
+    batch_size: 4
+
+# ============================================
+# SYNTHETIC DATA GENERATION (Stage 3-4)
+# ============================================
+synthetic:
+  enabled: true
+  num_images: 10000                 # 8,000-15,000 synthetic images
+
+  # SDXL-Turbo configuration
+  sdxl:
+    model_name: "stabilityai/sdxl-turbo"
+    controlnet_model: "controlnet-tile"
+    guidance_scale: 7.5
+    num_inference_steps: 4          # Turbo = 4 steps
+    strength: 0.6                   # Respect original weld geometry
+
+  # LoRA training
+  lora:
+    rank: 16
+    alpha: 32
+    dropout: 0.1
+    train_steps: 1000               # 800-1200 steps on 100-300 real images
+    learning_rate: 1e-4
+    batch_size: 4
+    mixed_precision: "fp16"
+    gradient_accumulation_steps: 4
+    save_steps: 200
+    logging_steps: 10
+    warmup_steps: 100
+    max_grad_norm: 1.0
+
+  # Prompt templates for weld generation
+  prompts:
+    good_weld:
+      - "professional TIG weld, smooth bead, consistent width, metallic surface, industrial quality"
+      - "perfect MIG weld, uniform ripples, clean penetration, steel plate, high-resolution photo"
+      - "excellent arc weld, symmetric bead pattern, no defects, shiny metal, workshop lighting"
+    bad_weld:
+      - "defective weld with porosity, gas bubbles, inconsistent bead, poor penetration"
+      - "failed weld showing cracks, undercut, burn-through, spatter, rough surface"
+      - "low-quality weld with slag inclusion, incomplete fusion, uneven width, oxidation"
+
+  # Negative prompts (always applied)
+  negative_prompt: "text, watermark, signature, handwriting, marker, label, blurry, cartoon, drawing"
+
+# ============================================
+# SELF-SUPERVISED PRE-TRAINING (Stage 2 - Optional)
+# ============================================
+dinov2:
+  enabled: false                    # Set to true for +3-5% accuracy boost
+  model_name: "facebook/dinov2-small"
+  freeze_backbone: false
+
+  # DINOv2 training
+  epochs: 50
+  batch_size: 32
+  learning_rate: 1e-4
+  weight_decay: 0.04
+  warmup_epochs: 10
+
+  # Data augmentation for SSL
+  crop_size: 224
+  global_crops_scale: [0.4, 1.0]
+  local_crops_scale: [0.05, 0.4]
+  local_crops_number: 8
+
+# ============================================
+# MODEL ARCHITECTURE
+# ============================================
+model:
+  # Backbone options:
+  # - "convnextv2_nano.fcmae_ft_in22k_in1k_384" (highest accuracy, 22k pre-train)
+  # - "tiny_vit_21m_384.dist_in22k_ft_in1k" (smaller, DINOv2 distilled)
+  backbone: "convnextv2_nano.fcmae_ft_in22k_in1k_384"
+  pretrained: true
+
+  # Feature extraction
+  drop_rate: 0.2
+  drop_path_rate: 0.1
+
+  # Freeze strategy
+  freeze_stages: 2                  # Freeze first 2 stages
+
+  # Head options: "arcface", "cosface", "softmax"
+  head: "arcface"
+
+  # ArcFace/CosFace parameters
+  embedding_size: 512
+  scale: 30.0                       # s=30 for ArcFace
+  margin: 0.5                       # m=0.5 for ArcFace
+  easy_margin: false
+
+# ============================================
+# AUGMENTATION
+# ============================================
+augmentation:
+  # Classical augmentation (Albumentations)
+  train:
+    horizontal_flip: 0.5
+    vertical_flip: 0.3
+    rotate_limit: 15
+    brightness_limit: 0.2
+    contrast_limit: 0.2
+    hue_shift_limit: 10
+    sat_shift_limit: 20
+    val_shift_limit: 20
+    blur_limit: 3
+    gaussian_noise: 0.02
+
+    # Geometric
+    shift_limit: 0.1
+    scale_limit: 0.2
+
+    # Industrial-specific
+    random_brightness_contrast: 0.3
+    random_shadow: 0.2
+    random_fog: 0.1
+
+  val:
+    # Minimal augmentation for validation
+    normalize_only: true
+
+  # Mix-style augmentation
+  mixup:
+    enabled: true
+    alpha: 0.4                      # Forces model to ignore local artifacts
+    prob: 0.5
+
+  cutmix:
+    enabled: true
+    alpha: 1.0
+    prob: 0.5
+
+  # Test-time augmentation
+  tta:
+    enabled: true
+    num_augmentations: 10           # 10x TTA + soft voting
+    transforms:
+      - "horizontal_flip"
+      - "vertical_flip"
+      - "rotate_90"
+      - "rotate_180"
+      - "rotate_270"
+
+# ============================================
+# TRAINING HYPERPARAMETERS
+# ============================================
+training:
+  # Training schedule
+  epochs: 90                        # 60-100 epochs total
+  batch_size: 64
+  gradient_accumulation_steps: 1
+
+  # Progressive resizing
+  progressive_resize:
+    enabled: true
+    schedule:
+      - [0, 256]                    # Epochs 0-30: 256x256
+      - [30, 320]                   # Epochs 30-50: 320x320
+      - [50, 384]                   # Epochs 50-70: 384x384
+      - [70, 448]                   # Epochs 70-90: 448x448
+
+  # Optimizer: Ranger21 (RAdam + Lookahead + MADGRAD)
+  optimizer: "ranger21"
+  lr: 3e-4
+  weight_decay: 0.01
+  betas: [0.9, 0.999]
+  eps: 1e-8
+
+  # Discriminative learning rates
+  discriminative_lr:
+    enabled: true
+    backbone_lr_multiplier: 0.1     # Backbone learns 10x slower
+    head_lr_multiplier: 1.0         # Head learns at full speed
+
+  # Learning rate schedule
+  scheduler: "cosine"
+  warmup_epochs: 5
+  min_lr: 1e-6
+
+  # Regularization
+  label_smoothing: 0.1
+  gradient_clip_val: 1.0
+
+  # Mixed precision
+  precision: "16-mixed"             # Automatic mixed precision
+
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 15
+    min_delta: 0.001
+    monitor: "val_loss"
+    mode: "min"
+
+  # Model checkpointing
+  checkpoint:
+    save_top_k: 3
+    monitor: "val_acc"
+    mode: "max"
+    save_last: true
+    filename: "weld-classifier-{epoch:03d}-{val_acc:.4f}"
+
+# ============================================
+# VALIDATION & METRICS
+# ============================================
+validation:
+  # Validation frequency
+  check_val_every_n_epoch: 1
+  val_check_interval: 1.0
+
+  # Metrics to track
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1"
+    - "auc_roc"
+    - "confusion_matrix"
+
+  # Per-class metrics
+  per_class_metrics: true
+
+# ============================================
+# EXPERIMENT TRACKING
+# ============================================
+logging:
+  # Weights & Biases
+  wandb:
+    enabled: true
+    project: "elite-weld-classifier"
+    entity: null                    # Your W&B username
+    name: null                      # Auto-generated from config
+    tags: ["weld", "arcface", "convnextv2"]
+    notes: "Elite weld defect classifier with ArcFace head"
+    log_model: "all"
+    log_freq: 50
+
+  # TensorBoard
+  tensorboard:
+    enabled: true
+    save_dir: "logs/tensorboard"
+
+  # Rich logging to terminal
+  rich_progress: true
+  log_every_n_steps: 10
+
+# ============================================
+# EXPORT (Stage 8)
+# ============================================
+export:
+  # ONNX export
+  onnx:
+    enabled: true
+    opset_version: 17
+    dynamic_axes:
+      input: {0: "batch_size"}
+      output: {0: "batch_size"}
+    simplify: true
+    check: true
+
+  # TensorRT optimization
+  tensorrt:
+    enabled: false                  # Set to true for edge deployment
+    fp16: true
+    int8: false                     # Requires calibration dataset
+    workspace_size: 4096            # MB
+    max_batch_size: 32
+
+  # OpenVINO (alternative to TensorRT)
+  openvino:
+    enabled: false
+    precision: "FP16"
+
+# ============================================
+# HARDWARE & PERFORMANCE
+# ============================================
+hardware:
+  # Device
+  accelerator: "auto"               # auto, gpu, cpu, mps
+  devices: 1                        # Number of GPUs
+
+  # Performance
+  benchmark: true                   # cuDNN benchmark mode
+  deterministic: false              # Set to true for reproducibility
+
+  # Multi-GPU strategy
+  strategy: "ddp"                   # ddp, ddp_spawn, deepspeed
+  sync_batchnorm: true
+
+# ============================================
+# REPRODUCIBILITY
+# ============================================
+seed:
+  enabled: true
+  value: 42
+
+# ============================================
+# PATHS
+# ============================================
+paths:
+  output_dir: "outputs"
+  log_dir: "logs"
+  checkpoint_dir: "models/classifier"
+  cache_dir: ".cache"

@@ -1,42 +1,139 @@
-# Core Framework
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
-pydantic==2.5.3
-pydantic-settings==2.1.0
+# Elite Weld Defect Classifier - Dependencies
+# Updated December 2025 with exact versions
 
-# Astrology Calculations
-pyswisseph==2.10.3.2
-kerykeion==4.7.2
-pytz==2024.1
-python-dateutil==2.8.2
+# ============================================
+# TEXT DETECTION & REMOVAL
+# ============================================
+easyocr==1.7.2                    # Zero-shot handwritten text detection
+opencv-python==4.10.0.84          # Mask dilation and image processing
+opencv-contrib-python==4.10.0.84  # Additional OpenCV modules
 
-# Database
-sqlalchemy==2.0.25
-psycopg2-binary==2.9.9
-alembic==1.13.1
+# LaMa Inpainting (install from git)
+# git+https://github.com/advimman/lama.git@2a3f7e1
 
-# Machine Learning & AI
-torch==2.2.0
-transformers==4.37.2
-scikit-learn==1.4.0
-numpy==1.26.3
-pandas==2.2.0
+# ============================================
+# SYNTHETIC DATA GENERATION
+# ============================================
+diffusers==0.30.2                 # SDXL-Turbo + ControlNet
+transformers==4.45.2              # Model architectures
+accelerate==0.34.2                # Multi-GPU training acceleration
+peft==0.13.2                      # LoRA training with <200 images
+bitsandbytes==0.44.1              # Quantization for efficient training
+safetensors==0.4.5                # Safe model serialization
+invisible-watermark==0.2.0        # SDXL dependency
+omegaconf==2.3.0                  # Configuration management
 
-# LLM APIs
-openai==1.10.0
-anthropic==0.18.1
+# ============================================
+# AUGMENTATION
+# ============================================
+albumentations==1.4.15            # Classical augmentation (deterministic)
+imgaug==0.4.0                     # Additional augmentation utilities
 
-# Utilities
-python-dotenv==1.0.1
-httpx==0.26.0
-pydantic[email]==2.5.3
+# ============================================
+# DEEP LEARNING FRAMEWORK
+# ============================================
+torch==2.5.1                      # PyTorch core
+torchvision==0.20.1               # Vision models and transforms
+torchaudio==2.5.1                 # Audio processing (dependency)
+pytorch-lightning==2.4.0          # Training framework
+timm==1.0.9                       # ConvNeXtV2 and TinyViT backbones
 
-# Development
-pytest==7.4.4
-pytest-asyncio==0.23.3
-black==24.1.1
-ruff==0.1.14
+# ============================================
+# SELF-SUPERVISED LEARNING
+# ============================================
+# DINOv2 (install via transformers)
+# Model: facebook/dinov2-small
 
-# Visualization (optional - for chart rendering)
-matplotlib==3.8.2
-pillow==10.2.0
+# ============================================
+# OPTIMIZER
+# ============================================
+ranger21==0.1.0                   # RAdam + Lookahead + MADGRAD
+
+# ============================================
+# EXPERIMENT TRACKING
+# ============================================
+wandb==0.18.5                     # Weights & Biases tracking
+tensorboard==2.18.0               # TensorBoard logging
+
+# ============================================
+# MODEL EXPORT
+# ============================================
+onnx==1.17.0                      # ONNX export
+onnxruntime==1.19.2               # ONNX inference
+onnxsim==0.4.36                   # ONNX model simplification
+# tensorrt==10.3.0                # TensorRT (install separately via NVIDIA)
+# openvino==2024.5.0              # OpenVINO (alternative to TensorRT)
+
+# ============================================
+# CONFIGURATION & HYDRA
+# ============================================
+hydra-core==1.3.2                 # Configuration management
+hydra-colorlog==1.2.0             # Colored logging
+
+# ============================================
+# DATA PROCESSING
+# ============================================
+numpy==1.26.4                     # Numerical computing
+pandas==2.2.3                     # Data manipulation
+pillow==10.4.0                    # Image loading
+scikit-learn==1.5.2               # Metrics and utilities
+scipy==1.14.1                     # Scientific computing
+tqdm==4.66.5                      # Progress bars
+
+# ============================================
+# VISUALIZATION
+# ============================================
+matplotlib==3.9.2                 # Plotting
+seaborn==0.13.2                   # Statistical visualization
+plotly==5.24.1                    # Interactive plots
+
+# ============================================
+# METRICS & EVALUATION
+# ============================================
+torchmetrics==1.4.3               # PyTorch metrics
+
+# ============================================
+# UTILITIES
+# ============================================
+python-dotenv==1.0.1              # Environment variables
+pyyaml==6.0.2                     # YAML parsing
+rich==13.9.2                      # Beautiful terminal output
+typer==0.12.5                     # CLI interface
+loguru==0.7.2                     # Advanced logging
+
+# ============================================
+# DEVELOPMENT & TESTING
+# ============================================
+pytest==8.3.3                     # Testing framework
+pytest-cov==6.0.0                 # Coverage reports
+black==24.10.0                    # Code formatting
+ruff==0.7.1                       # Fast linting
+mypy==1.13.0                      # Type checking
+pre-commit==4.0.1                 # Git hooks
+
+# ============================================
+# JUPYTER & NOTEBOOKS
+# ============================================
+jupyter==1.1.1                    # Jupyter notebooks
+ipykernel==6.29.5                 # Jupyter kernel
+ipywidgets==8.1.5                 # Interactive widgets
+
+# ============================================
+# INSTALLATION NOTES
+# ============================================
+#
+# 1. Install PyTorch with CUDA support (if available):
+#    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+#
+# 2. Install LaMa from git:
+#    pip install git+https://github.com/advimman/lama.git@2a3f7e1
+#
+# 3. Install TensorRT (optional, for production deployment):
+#    Follow NVIDIA's official guide: https://developer.nvidia.com/tensorrt
+#
+# 4. For Apple Silicon (M1/M2/M3):
+#    Use PyTorch MPS backend and skip TensorRT
+#
+# 5. Install all dependencies:
+#    pip install -r requirements.txt
+#
