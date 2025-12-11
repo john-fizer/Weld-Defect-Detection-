@@ -58,7 +58,7 @@ tensorboard==2.18.0               # TensorBoard logging
 # ============================================
 # MODEL EXPORT
 # ============================================
-onnx==1.17.0                      # ONNX export
+onnx==1.20.0                      # ONNX export
 onnxruntime==1.19.2               # ONNX inference
 onnxsim==0.4.36                   # ONNX model simplification
 # tensorrt==10.3.0                # TensorRT (install separately via NVIDIA)
