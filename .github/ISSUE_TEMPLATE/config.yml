@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/john-fizer/Weld-Defect-Detection-/blob/main/README.md
+    about: Check the documentation for answers to common questions
+  - name: 💬 Discussions
+    url: https://github.com/john-fizer/Weld-Defect-Detection-/discussions
+    about: Ask questions and discuss ideas with the community
