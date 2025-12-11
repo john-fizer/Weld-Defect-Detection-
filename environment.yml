@@ -1,0 +1,14 @@
+name: weld-defect-detection
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - pandas
+  - opencv
+  - scikit-learn
+  - tensorflow
+  - pip
+  - pip:
+    - -r requirements.txt
