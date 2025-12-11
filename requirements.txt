@@ -32,9 +32,9 @@ imgaug==0.4.0                     # Additional augmentation utilities
 # ============================================
 # DEEP LEARNING FRAMEWORK
 # ============================================
-torch==2.5.1                      # PyTorch core
-torchvision==0.20.1               # Vision models and transforms
-torchaudio==2.5.1                 # Audio processing (dependency)
+torch==2.9.1                      # PyTorch core
+torchvision==0.24.1               # Vision models and transforms
+torchaudio==2.9.1                 # Audio processing (dependency)
 pytorch-lightning==2.4.0          # Training framework
 timm==1.0.9                       # ConvNeXtV2 and TinyViT backbones
 
@@ -90,7 +90,7 @@ plotly==5.24.1                    # Interactive plots
 # ============================================
 # METRICS & EVALUATION
 # ============================================
-torchmetrics==1.4.3               # PyTorch metrics
+torchmetrics==1.8.2               # PyTorch metrics
 
 # ============================================
 # UTILITIES
