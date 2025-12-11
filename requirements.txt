@@ -14,10 +14,10 @@ opencv-contrib-python==4.10.0.84  # Additional OpenCV modules
 # ============================================
 # SYNTHETIC DATA GENERATION
 # ============================================
-diffusers==0.30.2                 # SDXL-Turbo + ControlNet
-transformers==4.45.2              # Model architectures
-accelerate==0.34.2                # Multi-GPU training acceleration
-peft==0.13.2                      # LoRA training with <200 images
+diffusers==0.36.0                 # SDXL-Turbo + ControlNet
+transformers==4.57.3              # Model architectures
+accelerate==1.12.0                # Multi-GPU training acceleration
+peft==0.18.0                      # LoRA training with <200 images
 bitsandbytes==0.44.1              # Quantization for efficient training
 safetensors==0.4.5                # Safe model serialization
 invisible-watermark==0.2.0        # SDXL dependency
