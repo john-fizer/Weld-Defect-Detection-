@@ -6,7 +6,7 @@
 # ============================================
 easyocr==1.7.2                    # Zero-shot handwritten text detection
 opencv-python==4.10.0.84          # Mask dilation and image processing
-opencv-contrib-python==4.10.0.84  # Additional OpenCV modules
+opencv-contrib-python==4.12.0.88  # Additional OpenCV modules
 
 # LaMa Inpainting (install from git)
 # git+https://github.com/advimman/lama.git@2a3f7e1
