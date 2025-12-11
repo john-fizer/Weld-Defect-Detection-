@@ -85,7 +85,7 @@ tqdm==4.66.5                      # Progress bars
 # ============================================
 matplotlib==3.9.2                 # Plotting
 seaborn==0.13.2                   # Statistical visualization
-plotly==5.24.1                    # Interactive plots
+plotly==6.5.0                    # Interactive plots
 
 # ============================================
 # METRICS & EVALUATION
