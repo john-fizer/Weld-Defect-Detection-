@@ -104,8 +104,8 @@ loguru==0.7.2                     # Advanced logging
 # ============================================
 # DEVELOPMENT & TESTING
 # ============================================
-pytest==8.3.3                     # Testing framework
-pytest-cov==6.0.0                 # Coverage reports
+pytest==9.0.2                     # Testing framework
+pytest-cov==7.0.0                 # Coverage reports
 black==24.10.0                    # Code formatting
 ruff==0.7.1                       # Fast linting
 mypy==1.13.0                      # Type checking
