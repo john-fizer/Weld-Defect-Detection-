@@ -1,0 +1,10 @@
+---
+name: weld-defect-detection
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - scikit-learn
+  - pip
+  - pip:
+      - some-python-package
