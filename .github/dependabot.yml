@@ -1,0 +1,49 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # Maintain dependencies for pip
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    # Group related updates together
+    groups:
+      pytorch:
+        patterns:
+          - "torch*"
+      transformers:
+        patterns:
+          - "transformers"
+          - "diffusers"
+          - "accelerate"
+          - "peft"
+      testing:
+        patterns:
+          - "pytest*"
+          - "*test*"
+      linting:
+        patterns:
+          - "black"
+          - "ruff"
+          - "mypy"
+    # Increase pull request limit for security updates
+    open-pull-requests-limit: 10
+    # Only update to compatible versions
+    versioning-strategy: increase
