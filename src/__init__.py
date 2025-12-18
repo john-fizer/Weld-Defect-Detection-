@@ -4,7 +4,7 @@ Complete pipeline for weld defect detection using modern deep learning
 """
 
 __version__ = "1.0.0"
-__author__ = "Claude AI"
+__author__ = "Weld Defect Detection Team"
 __description__ = "State-of-the-art weld defect classification with <3ms inference"
 
 from . import text_removal, synthetic_data, training, export
