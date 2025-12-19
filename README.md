@@ -2,7 +2,14 @@
 
 State-of-the-art weld defect detection using modern deep learning techniques. Achieves **97%+ accuracy** on industrial weld images with <1000 training examples.
 
-> **📢 Repository Organization Notice**: This repository currently contains multiple projects in different branches. See [REPOSITORY_ANALYSIS.md](REPOSITORY_ANALYSIS.md) for details and [REPOSITORY_MIGRATION.md](REPOSITORY_MIGRATION.md) for migration instructions to separate them into focused repositories.
+> **📢 Repository Organization Notice**: This repository currently contains multiple projects in different branches that should be separated.
+> 
+> **→ Start here: [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md)** - 30-minute guide to organize everything
+> 
+> Full documentation:
+> - [RECOMMENDATIONS.md](RECOMMENDATIONS.md) - Executive summary and recommendations
+> - [REPOSITORY_ANALYSIS.md](REPOSITORY_ANALYSIS.md) - Detailed analysis of all branches
+> - [REPOSITORY_MIGRATION.md](REPOSITORY_MIGRATION.md) - Step-by-step migration instructions
 
 ## 🎯 Key Features
 
