@@ -54,6 +54,7 @@ data/clean_real/
 data/synthetic/
 data/merged/
 data/test/
+data/test_dataset/
 data/validation/
 *.jpg
 *.jpeg
