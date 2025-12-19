@@ -2,6 +2,15 @@
 
 State-of-the-art weld defect detection using modern deep learning techniques. Achieves **97%+ accuracy** on industrial weld images with <1000 training examples.
 
+> **📢 Repository Organization Notice**: This repository currently contains multiple projects in different branches that should be separated.
+> 
+> **→ Start here: [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md)** - 30-minute guide to organize everything
+> 
+> Full documentation:
+> - [RECOMMENDATIONS.md](RECOMMENDATIONS.md) - Executive summary and recommendations
+> - [REPOSITORY_ANALYSIS.md](REPOSITORY_ANALYSIS.md) - Detailed analysis of all branches
+> - [REPOSITORY_MIGRATION.md](REPOSITORY_MIGRATION.md) - Step-by-step migration instructions
+
 ## 🎯 Key Features
 
 - **Zero Text Artifacts**: EasyOCR + LaMa inpainting removes all handwritten/printed text
@@ -386,4 +395,19 @@ This project is licensed under the MIT License - see LICENSE file for details.
 2. Deng et al. "ArcFace: Additive Angular Margin Loss for Deep Face Recognition"
 3. Woo et al. "ConvNeXt V2: Co-designing and Scaling ConvNets with Masked Autoencoders"
 4. Sauer et al. "Adversarial Diffusion Distillation" (SDXL-Turbo)
+
+---
+
+## 🔗 Related Projects
+
+This repository currently contains multiple AI/ML projects in separate branches. These should be migrated to individual repositories:
+
+- **Advanced Astrology App** - AI-powered astrology application
+- **AI Job Application Assistant** - Automated job application tool
+- **Meta Learning Research** - Research on meta-learning algorithms
+- **Multi-Agent Trading System** - AI-driven trading system
+
+For detailed information about repository organization and migration instructions, see:
+- [REPOSITORY_ANALYSIS.md](REPOSITORY_ANALYSIS.md) - Analysis of all branches and recommendations
+- [REPOSITORY_MIGRATION.md](REPOSITORY_MIGRATION.md) - Step-by-step migration guide
 
