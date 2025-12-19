@@ -9,6 +9,7 @@ State-of-the-art weld defect detection using modern deep learning techniques. Ac
 - **Maximum Accuracy**: ConvNeXtV2 backbone + ArcFace head optimized for tiny datasets
 - **Production Ready**: <3ms inference via TensorRT/ONNX export
 - **One Config, No Code**: Hydra configuration drives entire pipeline
+- **Overfitting Analysis**: Comprehensive tools to verify model generalization and validate accuracy claims
 
 ## 📊 Performance
 
@@ -222,7 +223,11 @@ Weld-Defect-Detection-/
 ├── scripts/                       # Utility scripts
 │   ├── train_pipeline.py          # End-to-end workflow
 │   ├── train_lora.py              # LoRA training script
-│   └── generate_synthetic.py     # Synthetic data generation
+│   ├── generate_synthetic.py     # Synthetic data generation
+│   ├── overfitting_analysis.py   # Comprehensive overfitting analysis
+│   └── quick_overfitting_check.py # Quick overfitting validation
+├── docs/                          # Documentation
+│   └── OVERFITTING_ANALYSIS.md    # Overfitting analysis guide
 ├── requirements.txt               # Python dependencies
 └── README.md                      # This file
 ```
@@ -296,6 +301,35 @@ training:
 | Need <15 MB model | Use `tiny_vit_21m_384` backbone |
 | Need <2 ms inference | Use TensorRT INT8 quantization |
 | Noisy labels | Increase label smoothing to 0.2 |
+
+## 🔍 Overfitting Analysis
+
+To validate the 97% accuracy claim and ensure the model generalizes well:
+
+```bash
+# Quick overfitting check (15 epochs)
+python scripts/quick_overfitting_check.py --data-path data/merged
+
+# Comprehensive cross-validation analysis (5 folds)
+python scripts/overfitting_analysis.py \
+    --data-path data/merged \
+    --k-folds 5 \
+    --epochs 20 \
+    --output-dir outputs/overfitting_analysis
+```
+
+**What it checks**:
+- Train vs validation accuracy gap (overfitting indicator)
+- Cross-validation consistency across multiple folds
+- Learning curves and convergence patterns
+- Statistical significance of performance claims
+
+**Interpretation**:
+- **Gap <5%**: ✅ Model generalizes well
+- **Gap 5-10%**: ⚠️ Moderate overfitting, monitor closely
+- **Gap >10%**: ❌ Severe overfitting, model memorizing data
+
+See [docs/OVERFITTING_ANALYSIS.md](docs/OVERFITTING_ANALYSIS.md) for detailed guide.
 
 ## 📈 Monitoring Training
 
